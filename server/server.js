@@ -1,5 +1,5 @@
 
-var addUser = function (username, email, password, role, dbuser_id) {
+addUser = function (username, email, password, role, dbuser_id) {
     var user_id = Accounts.createUser({ username: username, email: email, password: password });
     Rola.insert({ meteor_user: user_id, role: role, dbuser_id: dbuser_id });
 }
