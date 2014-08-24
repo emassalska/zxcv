@@ -19,8 +19,8 @@ suite('Uprawnienia', function () {
 
         client.eval(function () {
             Meteor.loginWithPassword('n1@wp.pl', 'uczen', function () {
-                var uczen_id = Uczen.findOne({});
-                var przedmiot_id = Przedmiot.findOne({});
+                var uczen_id = Uczen.findOne({})._id;
+                var przedmiot_id = Przedmiot.findOne({})._id;
                 emit('zalogowany', uczen_id, przedmiot_id, 4);
             });
 
