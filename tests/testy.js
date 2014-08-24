@@ -6,7 +6,7 @@ suite('submitMainPosts', function () {
     // (3) the collection is empty
     test('Initialization', function (done, server) {
         server.eval(function () {
-            var collection = Posts.find({}).fetch();
+            var collection = Ocena.find({}).fetch();
             emit('collection', collection);
         }).once('collection', function (collection) {
             assert.equal(collection.length, 0);
