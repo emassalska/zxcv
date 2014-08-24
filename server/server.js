@@ -6,7 +6,7 @@ var addUser = function (username, email, password, role, dbuser_id) {
 
 Meteor.startup(function () {
 
-    //Uczen.remove({});
+    Uczen.remove({});
     //tworzymy dane
     if (Uczen.find().count() == 0) {
         //czyszczenie pozostalych tabel na wszelki wypadek
