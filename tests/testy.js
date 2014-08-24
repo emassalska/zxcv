@@ -5,6 +5,10 @@ suite('submitMainPosts', function () {
     // (2) we can connect to the collection
     // (3) the collection is empty
     test('nauczyciel moze sie zalogowac', function (done, server, client) {
+        server.eval(function () {
+
+        })
+
         client.eval(function () {
             Meteor.loginWithPassword('n1@wp.pl', 'nauczyciel');
             emit('zalogowany');
