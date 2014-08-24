@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <div style="float:right; clear:both;">{{loginButtons align="right"}}</div>
+    <div style="float:right; clear:both;">{{> loginButtons align="right"}}</div>
     {{#if currentUser}}
     {{> viewSelector}}
     {{else}}

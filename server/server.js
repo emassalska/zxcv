@@ -10,12 +10,17 @@ Meteor.startup(function () {
     //tworzymy dane
     if (Uczen.find().count() == 0) {
         //czyszczenie pozostalych tabel na wszelki wypadek
-        Uczen.remove({});
-        Nauczyciel.remove({});
-        Przedmiot.remove({});
-        Ocena.remove({});
-        Rola.remove({});
-        Meteor.users.remove({});
+
+        if (Nauczyciel.find().count() > 0)
+            Nauczyciel.remove({});
+        if (Przedmiot.find().count() > 0)
+            Przedmiot.remove({});
+        if (Ocena.find().count() > 0)
+            Ocena.remove({});
+        if (Rola.find().count() > 0)
+            Rola.remove({});
+        if (Meteor.users.find().count() > 0)
+            Meteor.users.remove({});
 
         //dodajemy uczniow
         var u1_id = Uczen.insert({
@@ -192,7 +197,7 @@ Meteor.publish("rola", function (user_id) {
     if (this.userId == user_id && user_id) {
         return Rola.find({ meteor_user: this.userId });
     } else {
-        return {};
+        return Rola.find({ meteor_user: undefined });
     }
 })
 
