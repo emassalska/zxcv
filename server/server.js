@@ -189,8 +189,6 @@ Meteor.publish("nauczyciele", function () {
 });
 
 Meteor.publish("rola", function (user_id) {
-    console.log("meteor: " + this.userId)
-    console.log("user : " + user_id)
     if (this.userId == user_id && user_id) {
         return Rola.find({ meteor_user: this.userId });
     } else {
