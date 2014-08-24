@@ -19,11 +19,13 @@ suite('Uprawnienia', function () {
 
         client.eval(function () {
             Meteor.loginWithPassword('n1@wp.pl', 'uczen', function () {
-                emit('zalogowany');
+                var uczen_id = Uczen.findOne({});
+                var przedmiot_id = Przedmiot.findOne({});
+                emit('zalogowany', uczen_id, przedmiot_id, 4);
             });
 
-        }).once('zalogowany', function (uczen_id) {
-            Meteor.call('dodajOcene', this._id, Session.get('przedmiot_id'), value, function (error, result) {
+        }).once('zalogowany', function (uczen_id, przedmiot_id, ocena) {
+            Meteor.call('dodajOcene', uczen_id, przedmiot_id, ocena, function (error, result) {
                 assert.equal(error, undefined);
                 done();
             });
