@@ -25,10 +25,44 @@ suite('Uprawnienia', function () {
             });
 
         }).once('zalogowany', function (uczen_id, przedmiot_id, ocena) {
-            Meteor.call('dodajOcene', uczen_id, przedmiot_id, ocena, function (error, result) {
-                assert.equal(error, undefined);
-                done();
+            client.eval(function () {
+                Meteor.call('dodajOcene', uczen_id, przedmiot_id, ocena, function (error, result) {
+                    eval('ocenaDodana', error);
+                });
             });
         });
+
+        client.once('ocenaDodana', function (error) {
+            assert.equal(error, undefined);
+            done();
+        });
     });
+
+
+    test('nauczyciel moze dodac ocene 2', function (done, server, client) {
+
+        client.eval(function () {
+            Meteor.loginWithPassword('n1@wp.pl', 'uczen', function () {
+                var uczen_id = Uczen.findOne({})._id;
+                var przedmiot_id = Przedmiot.findOne({})._id;
+                emit('zalogowany', uczen_id, przedmiot_id, 4);
+            });
+
+        }).once('zalogowany', function (uczen_id, przedmiot_id, ocena) {
+            client.eval(dodajOcene);
+        });
+
+
+        function dodajOcene() {
+            Meteor.call('dodajOcene', uczen_id, przedmiot_id, ocena, function (error, result) {
+                emit('ocenaDodana', error);
+            });
+        }
+
+        client.once('ocenaDodana', function (error) {
+            assert.equal(error, undefined);
+            done();
+        });
+    });
+
 });
