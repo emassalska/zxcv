@@ -1,0 +1,29 @@
+<head>
+  <title>fbapp</title>
+</head>
+
+<body>
+{{>navigation}}
+<div class="container">
+	<div class="row">
+		{{>splash}}
+		{{#if currentUser}}
+		<div class="span2">
+			{{>sidebar}}
+
+		</div>
+		{{/if}}
+
+		<div class="span10">
+	
+			{{>home}}
+			
+
+		</div>
+
+		
+
+	</div>
+</div>
+
+</body>

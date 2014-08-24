@@ -1,0 +1,15 @@
+<template name="home">
+	<div class="well well-large">
+		{{#if currentUser}}
+		<label for="posttext"> Dodaj coś od siebie </label>
+		<input placeholder="O czym teraz myślisz?" class="input-xxlarge posttext" type="text" name="posttext" value="" id="posttext">
+		{{/if}}
+	
+	</div>
+	<ul id="postList" class="unstyled">
+		
+		{{#each posts}}
+		{{>post}}
+		{{/each}}
+	</ul>
+</template>
