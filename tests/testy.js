@@ -114,7 +114,7 @@ suite('Uprawnienia Nauczyciela', function () {
                     emit('ocenaDodana', ocena_id);
                 });
             });
-        }).once('ocenaDodana', function (error) {
+        }).once('ocenaDodana', function (ocena_id) {
             var ocena = Ocena.findOne({ _id: ocena_id }).ocena;
             assert.equal(ocena, 1);
             done();
