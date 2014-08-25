@@ -84,5 +84,40 @@ suite('Uprawnienia Nauczyciela', function () {
         });
     });
 
+    test('nauczyciel moze zmienic ocene', function (done, server, client) {
+        var ocena_id = null;
+        server.eval(function () {
+            var uczen_id = Uczen.findOne({})._id;
+            var przedmiot_id = Przedmiot.findOne({})._id;
+            var nauczyciel_id = Nauczyciel.findOne({})._id;
+            ocena_id = Ocena.insert({
+                ocena: 4,
+                uczen: uczen_id,
+                nauczyciel: nauczyciel_id,
+                przedmiot: przedmiot_id
+            });
+            emit('sprawdzOcene');
+        }), once('sprawdzOcene', function () {
+            client.eval(function () {
+                Meteor.loginWithPassword('n1@wp.pl', 'nauczyciel', function () {
+                    emit('zalogowany');
+                });
 
+            });
+        });
+
+        client.once('zalogowany', function () {
+            client.eval(function () {
+                var uczen_id = Uczen.findOne({})._id;
+                var przedmiot_id = Przedmiot.findOne({})._id;
+                Meteor.call('zmienOcene', ocena_id, 1, function (error, result) {
+                    emit('ocenaDodana', ocena_id);
+                });
+            });
+        }).once('ocenaDodana', function (error) {
+            var ocena = Ocena.findOne({ _id: ocena_id }).ocena;
+            assert.equal(ocena, 1);
+            done();
+        });
+    });
 });
