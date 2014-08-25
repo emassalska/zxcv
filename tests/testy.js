@@ -18,7 +18,7 @@ suite('Uprawnienia', function () {
     test('nauczyciel moze dodac ocene', function (done, server, client) {
 
         client.eval(function () {
-            Meteor.loginWithPassword('n1@wp.pl', 'uczen', function () {
+            Meteor.loginWithPassword('n1@wp.pl', 'nauczyciel', function () {
                 emit('zalogowany');
             });
 
