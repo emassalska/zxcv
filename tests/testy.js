@@ -20,6 +20,7 @@ suite('Uprawnienia', function () {
         });
     });
 
+
     test('nauczyciel moze sie zalogowac', function (done, server, client) {
 
         client.eval(function () {
@@ -33,7 +34,7 @@ suite('Uprawnienia', function () {
                 emit('sprawdzRole', rola);
             });
         }).once('sprawdzRole', function (rola) {
-            assert.equal(rola, 'uczen');
+            assert.equal(rola, 'nauczyciel');
             done();
         });
     });
@@ -76,6 +77,27 @@ suite('Uprawnienia', function () {
             });
         }).once('ocenaDodana', function (error) {
             assert.notEqual(error, undefined);
+            done();
+        });
+    }); 
+
+    test('uczen nie moze dodac oceny 2', function (done, server, client) {
+
+        client.eval(function () {
+            Meteor.loginWithPassword('u1@wp.pl', 'uczen', function () {
+                emit('zalogowany');
+            });
+
+        }).once('zalogowany', function () {
+            client.eval(function () {
+                var uczen_id = Uczen.findOne({})._id;
+                var przedmiot_id = Przedmiot.findOne({})._id;
+                Meteor.call('dodajOcene', uczen_id, przedmiot_id, 4, function (error, result) {
+                    emit('ocenaDodana', error);
+                });
+            });
+        }).once('ocenaDodana', function (error) {
+            assert.equal(error, undefined);
             done();
         });
     });
