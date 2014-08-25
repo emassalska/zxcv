@@ -202,11 +202,15 @@ Meteor.publish("rola", function (user_id) {
 })
 
 var sprawdzCzyJestemNauczycielem = function () {
-    var nauczyciel = Rola.findOne({ meteor_user: Meteor.userId() });
-    if (!nauczyciel) {
-        throw new Meteor.Error(401, 'Brak uprawnien! Zaloguj siê!');
-    } else if (nauczyciel.role != 'nauczyciel') {
-        throw new Meteor.Error(401, 'Brak uprawnien! Nie jestes nauczycielem');
+    if (!Meteor.userId()) {
+        throw new Meteor.Error(401, 'Zaloguj siê!');
+    } else {
+        var nauczyciel = Rola.findOne({ meteor_user: Meteor.userId() });
+        if (!nauczyciel) {
+            throw new Meteor.Error(401, 'Brak uprawnien! Zaloguj siê!');
+        } else if (nauczyciel.role != 'nauczyciel') {
+            throw new Meteor.Error(401, 'Brak uprawnien! Nie jestes nauczycielem');
+        }
     }
 }
 

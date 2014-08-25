@@ -6,15 +6,15 @@ suite('Uprawnienia', function () {
 
         client.eval(function () {
             Meteor.loginWithPassword('u1@wp.pl', 'uczen', function () {
-                emit('zalogowany');
+                emit('zalogowanyu');
             });
 
-        }).once('zalogowany', function () {           
+        }).once('zalogowanyu', function () {           
             client.eval(function () {
                 var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
-                emit('sprawdzRole', rola);
+                emit('sprawdzRoleu', rola);
             });
-        }).once('sprawdzRole', function (rola) {
+        }).once('sprawdzRoleu', function (rola) {
             assert.equal(rola, 'uczen');
             done();
         });
