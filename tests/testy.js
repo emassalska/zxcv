@@ -1,5 +1,5 @@
 ﻿var assert = require('assert');
-suite('Uprawnienia', function () {
+suite('Uprawnienia Ucznia', function () {
 
 
     test('uczen moze sie zalogowac', function (done, server, client) {
@@ -21,6 +21,28 @@ suite('Uprawnienia', function () {
         });
     });
 
+    test('uczen nie moze dodac oceny', function (done, server, client) {
+
+        client.eval(function () {
+            Meteor.loginWithPassword('u1@wp.pl', 'uczen', function () {
+                emit('zalogowanyy');
+            });
+
+        }).once('zalogowanyy', function () {
+            client.eval(function () {
+                var uczen_id = Uczen.findOne({})._id;
+                var przedmiot_id = Przedmiot.findOne({})._id;
+                Meteor.call('dodajOcene', uczen_id, przedmiot_id, 4, function (error, result) {
+                    emit('ocenaDodana', error);
+                });
+            });
+        }).once('ocenaDodana', function (error) {
+            assert.notEqual(error, undefined);
+            done();
+        });
+    });
+});
+suite('Uprawnienia Nauczyciela', function () {
 
     test('nauczyciel moze sie zalogowac', function (done, server, client) {
 
@@ -62,24 +84,5 @@ suite('Uprawnienia', function () {
         });
     });
 
-    test('uczen nie moze dodac oceny', function (done, server, client) {
 
-        client.eval(function () {
-            Meteor.loginWithPassword('u1@wp.pl', 'uczen', function () {
-                emit('zalogowanyy');
-            });
-
-        }).once('zalogowanyy', function () {
-            client.eval(function () {
-                var uczen_id = Uczen.findOne({})._id;
-                var przedmiot_id = Przedmiot.findOne({})._id;
-                Meteor.call('dodajOcene', uczen_id, przedmiot_id, 4, function (error, result) {
-                    emit('ocenaDodana', error);
-                });
-            });
-        }).once('ocenaDodana', function (error) {
-            assert.notEqual(error, undefined);
-            done();
-        });
-    });
 });
