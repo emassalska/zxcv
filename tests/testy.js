@@ -85,28 +85,28 @@ suite('Uprawnienia Nauczyciela', function () {
     });
 
     test('nauczyciel moze zmienic ocene', function (done, server, client) {
-        var ocena_id = null;
+      
         server.eval(function () {
             var uczen_id = Uczen.findOne({})._id;
             var przedmiot_id = Przedmiot.findOne({})._id;
             var nauczyciel_id = Nauczyciel.findOne({})._id;
-            ocena_id = Ocena.insert({
+           var ocena_id = Ocena.insert({
                 ocena: 4,
                 uczen: uczen_id,
                 nauczyciel: nauczyciel_id,
                 przedmiot: przedmiot_id
             });
-            emit('sprawdzOcene');
-        }).once('sprawdzOcene', function () {
+            emit('sprawdzOcene', ocena_id);
+        }).once('sprawdzOcene', function (ocena_id) {
             client.eval(function () {
                 Meteor.loginWithPassword('n1@wp.pl', 'nauczyciel', function () {
-                    emit('zalogowany');
+                    emit('zalogowany', ocena_id);
                 });
 
             });
         });
 
-        client.once('zalogowany', function () {
+        client.once('zalogowany', function (ocena_id) {
             client.eval(function () {
                 var uczen_id = Uczen.findOne({})._id;
                 var przedmiot_id = Przedmiot.findOne({})._id;
