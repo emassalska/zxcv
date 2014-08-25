@@ -27,7 +27,7 @@ suite('Uprawnienia', function () {
                 var uczen_id = Uczen.findOne({})._id;
                 var przedmiot_id = Przedmiot.findOne({})._id;
                 Meteor.call('dodajOcene', uczen_id, przedmiot_id, 4, function (error, result) {
-                    eval('ocenaDodana', error);
+                    emit('ocenaDodana', error);
                 });
             });
         }).once('ocenaDodana', function (error) {
