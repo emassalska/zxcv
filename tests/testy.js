@@ -9,9 +9,9 @@ suite('Uprawnienia', function () {
                 emit('zalogowany');
             });
 
-        }).once('zalogowany', function () {
+        }).once('zalogowany', function () {           
             client.eval(function () {
-                var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role
+                var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
                 emit('sprawdzRole', rola);
             });
         }).once('sprawdzRole', function (rola) {
@@ -30,7 +30,7 @@ suite('Uprawnienia', function () {
 
         }).once('zalogowany', function () {
             client.eval(function () {
-                var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role
+                var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
                 emit('sprawdzRole', rola);
             });
         }).once('sprawdzRole', function (rola) {
