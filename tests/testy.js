@@ -97,7 +97,7 @@ suite('Uprawnienia Nauczyciela', function () {
                 przedmiot: przedmiot_id
             });
             emit('sprawdzOcene');
-        }), once('sprawdzOcene', function () {
+        }).once('sprawdzOcene', function () {
             client.eval(function () {
                 Meteor.loginWithPassword('n1@wp.pl', 'nauczyciel', function () {
                     emit('zalogowany');
