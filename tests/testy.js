@@ -30,12 +30,12 @@ suite('Uprawnienia', function () {
             });
 
         }).once('zalogowany', function () {
-            server.eval(function () {
-                var rola = Rola.findOne({ meteor_user: this.userId }).role;
+            client.eval(function () {
+                var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
                 emit('sprawdzRole', rola);
             });
         });
-        server.once('sprawdzRole', function (rola) {
+        client.once('sprawdzRole', function (rola) {
             assert.equal(rola, 'nauczyciel');
             done();
         });
