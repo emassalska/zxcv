@@ -9,12 +9,13 @@ suite('Uprawnienia', function () {
                 emit('zalogowanyu');
             });
 
-        }).once('zalogowanyu', function () {           
-            client.eval(function () {
+        }).once('zalogowanyu', function () {
+            server.eval(function () {
                 var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
                 emit('sprawdzRoleu', rola);
             });
-        }).once('sprawdzRoleu', function (rola) {
+        });
+        server.once('sprawdzRoleu', function (rola) {
             assert.equal(rola, 'uczen');
             done();
         });
@@ -29,11 +30,12 @@ suite('Uprawnienia', function () {
             });
 
         }).once('zalogowany', function () {
-            client.eval(function () {
+            server.eval(function () {
                 var rola = Rola.findOne({ meteor_user: Meteor.userId() }).role;
                 emit('sprawdzRole', rola);
             });
-        }).once('sprawdzRole', function (rola) {
+        });
+        server.once('sprawdzRole', function (rola) {
             assert.equal(rola, 'nauczyciel');
             done();
         });
@@ -64,10 +66,10 @@ suite('Uprawnienia', function () {
 
         client.eval(function () {
             Meteor.loginWithPassword('u1@wp.pl', 'uczen', function () {
-                emit('zalogowany');
+                emit('zalogowanyy');
             });
 
-        }).once('zalogowany', function () {
+        }).once('zalogowanyy', function () {
             client.eval(function () {
                 var uczen_id = Uczen.findOne({})._id;
                 var przedmiot_id = Przedmiot.findOne({})._id;
@@ -79,7 +81,7 @@ suite('Uprawnienia', function () {
             assert.notEqual(error, undefined);
             done();
         });
-    }); 
+    });
 
     test('uczen nie moze dodac oceny 2', function (done, server, client) {
 
